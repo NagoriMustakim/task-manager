@@ -1,0 +1,72 @@
+/* Layer order: MUI sits above Tailwind's base but below its utilities, so utility classes (space-y, gap, sizing) can adjust MUI controls. */
+@layer theme, base, mui, components, utilities;
+
+@import "tailwindcss";
+
+/* Design tokens. Light by default; the dark set below is switched by MUI's color-scheme attribute on <html>. */
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-canvas: #fbfbfc;
+  --color-surface: #ffffff;
+  --color-line: #e6e7ea;
+  --color-line-strong: #d3d5da;
+  --color-ink: #16171a;
+  --color-ink-muted: #5f6370;
+  --color-accent: #4f5bd5;
+  --color-accent-hover: #3f4ac0;
+  --color-on-accent: #ffffff;
+  --color-danger: #c0392b;
+  --color-danger-bg: #fdf1ef;
+  --color-success: #1f7a4d;
+  --color-success-bg: #eef8f2;
+  --color-pri-urgent: #d92d20;
+  --color-pri-high: #c2570c;
+  --color-pri-medium: #1d6fd1;
+  --color-pri-low: #3d7a52;
+  --radius-control: 6px;
+}
+
+:root[data-mui-color-scheme="dark"] {
+  --color-canvas: #0f1115;
+  --color-surface: #171a21;
+  --color-line: #262a33;
+  --color-line-strong: #373c48;
+  --color-ink: #e8eaee;
+  --color-ink-muted: #9aa0ad;
+  --color-accent: #8f99ff;
+  --color-accent-hover: #a7afff;
+  --color-on-accent: #0f1115;
+  --color-danger: #ff7b6e;
+  --color-danger-bg: #3a1d1b;
+  --color-success: #4cc38a;
+  --color-success-bg: #14281e;
+  --color-pri-urgent: #ff6b5e;
+  --color-pri-high: #ffa04a;
+  --color-pri-medium: #6cb2ff;
+  --color-pri-low: #6fd09a;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* MUI inputs draw their own focus ring on the outlined border; the global ring would double it. */
+.MuiInputBase-input:focus-visible,
+.MuiSelect-select:focus-visible {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
