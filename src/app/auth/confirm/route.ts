@@ -22,9 +22,16 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(url);
   };
 
-  if (!tokenHash || !type || !OTP_TYPES.includes(type)) return fail();
+  const code = searchParams.get("code");
 
   const supabase = await createClient();
+  // Works with both Supabase email styles: ?code= (default "ConfirmationURL" templates, PKCE) and ?token_hash= (custom templates).
+  if (code) {
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (error) return fail();
+    return NextResponse.redirect(new URL(next, request.nextUrl.origin));
+  }
+  if (!tokenHash || !type || !OTP_TYPES.includes(type)) return fail();
   const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
   if (error) return fail();
 
